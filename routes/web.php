@@ -12,11 +12,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Route::get('/', function () {
+//   return view('guest.welcome');
+//});
 
-Route::get('/', function () {
-    return view('welcome');
+Route::Get("/postGuest","PostController@index")->name("posts");
+// Route::get('/home', 'HomeController@index')->name('home');
+Route::name("admin.")->prefix("admin")->namespace("Admin")->middleware('auth')->group(function(){
+  //  Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource("posts","PostController");
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
