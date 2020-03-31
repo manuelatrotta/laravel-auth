@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('content')
-  <div>
-      <a class="btn btn-primary" href="{{route('admin.posts.create')}}">Crea un nuovo post</a>
-  </div>
+  <a class="btn btn-primary" href="{{route('admin.posts.create')}}">Create a new post</a>
   <table class="table">
     <thead>
       <tr>
@@ -13,14 +11,15 @@
       </tr>
     </thead>
     <tbody>
+
         @foreach ($posts as $post)
         <tr>
           <th scope="row">{{$post->id}}</th>
           <td>{{$post->title}}</td>
           <td>{{$post->body}}</td>
           <td>{{$post->slug}}</td>
-          <td><a class="btn btn-primary" href="{{route('admin.posts.show', $post->slug)}}">View</a> </td>
-          <td><a class="btn btn-primary" href="{{route('admin.posts.edit', $post->slug)}}">Edit</a> </td>
+          <td><a href="{{route('admin.posts.show', $post)}}">Show</a></td>
+          <td><a href="{{route('admin.posts.edit', $post)}}">Edit</a></td>
           <td>
           <form action="{{route('admin.posts.destroy', $post)}}" method="post">
               @csrf

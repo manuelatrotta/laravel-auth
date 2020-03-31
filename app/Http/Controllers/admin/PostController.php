@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\admin;
-use App\Post;
-use App\Tag;
-use App\Image;
-use Illuminate\Http\Request;
+namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+
+use App\Post;
 
 class PostController extends Controller
 {
@@ -19,7 +19,9 @@ class PostController extends Controller
     public function index()
     {
       $posts = Post::all();
+
       return view('admin.index', compact('posts'));
+
     }
 
     /**
@@ -62,11 +64,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Post $post)
     {
-      $post = Post::where('slug', $slug)->first();
-
-        return view('admin.show', compact('post'));
+      return view('admin.show', compact('post'));
     }
 
     /**
@@ -87,9 +87,21 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+      $request->validate([
+        'title' => 'required|string|max:255',
+        'body' => 'required|string|max:1000',
+    ]);
+
+      $data = $request->all();
+
+      $post->fill($data);
+      $post->user_id = Auth::id();
+      $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
+      $post->update($data);
+
+      return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -100,11 +112,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-      if(empty($post)) {
-            abort(404);
-        }
-        $post->delete();
-
-        return redirect()->route('admin.posts.index');
+      if (empty($post)) {
+        abort('404');
+      }
+      $post->delete();
+      return redirect()->route('admin.posts.destroy');
     }
 }
