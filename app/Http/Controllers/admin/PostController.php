@@ -36,9 +36,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+      $this->validateRules = [
+          'title' => 'required|string|max:255',
+          'body' => 'required|string'
+        ];
         $data = $request->all();
+        dd($data);
 
-      dd($data);
     }
 
     /**
