@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\admin;
 use App\Post;
-use App\Http\Controllers\Controller;
+use App\Tag;
+use App\Image;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -36,13 +40,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-      $this->validateRules = [
-          'title' => 'required|string|max:255',
-          'body' => 'required|string'
-        ];
-        $data = $request->all();
-        dd($data);
+      $request->validate([
+        'title' => 'required|string|max:255',
+        'body' => 'required|string|max:1000',
+    ]);
 
+      $data = $request->all();
+
+      $post = new Post;
+      $post->fill($data);
+      $post->user_id = Auth::id();
+      $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
+      $post->save();
+
+      return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -64,9 +75,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+      return view('Admin.edit', compact('post'));
     }
 
     /**
