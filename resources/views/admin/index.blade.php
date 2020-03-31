@@ -16,6 +16,8 @@
           <td>{{$post->title}}</td>
           <td>{{$post->body}}</td>
           <td>{{$post->slug}}</td>
+          <td><a class="btn btn-primary" href="{{route('admin.posts.show', $post->slug)}}">View</a> </td>
+          <td><a class="btn btn-primary" href="{{route('admin.posts.edit', $post->slug)}}">Edit</a> </td>
         </tr>
         @endforeach
     </tbody>
