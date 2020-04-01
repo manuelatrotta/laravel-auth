@@ -33,19 +33,19 @@
             @csrf
             @method('POST')
             <div class="form-group">
-              <label for="title">Titolo</label>
+              <label for="title">Title</label>
               <input class="form-control" type="text" name="title">
             </div>
             <div class="form-group">
-              <label for="body">Commento</label>
+              <label for="body">Comment</label>
               <textarea class="form-control"  name="body" id="body" cols="30" rows="10"></textarea>
             </div>
             <div class="form-group">
-              <label for="name">Il tuo Nome</label>
+              <label for="name">Your Name</label>
               <input class="form-control"  type="text" name="name">
             </div>
             <div class="form-group">
-              <label for="email">La tua mail</label>
+              <label for="email">Your mail</label>
               <input class="form-control"  type="text" name="email">
             </div>
             <input type="hidden" name="post_id" value="{{$post->id}}">
