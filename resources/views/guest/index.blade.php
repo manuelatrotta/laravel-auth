@@ -14,6 +14,9 @@
                   {{$post->body}}
                 </div>
               </div>
+            </div>
+              <a href="{{route('posts.show', $post->slug)}}">Leggi</a>
+            </div>
           @endforeach
         </div>
       </div>
