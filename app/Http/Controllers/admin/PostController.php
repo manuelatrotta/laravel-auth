@@ -83,8 +83,15 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
-    {
-      return view('admin.edit', compact('post'));
+    { $posts = Post::all();
+      $tags = Tag::all();
+
+        $data = [
+            'tags' => $tags,
+            'post' => $post,
+        ];
+
+      return view('admin.edit', $data);
     }
 
     /**
@@ -107,6 +114,12 @@ class PostController extends Controller
       $post->user_id = Auth::id();
       $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
       $post->update($data);
+      $tags = $data['tags'];
+      if (!empty($tags)) {
+            // $post->tags()->detach();
+            // $post->tags()->attach($tags);
+            $post->tags()->sync($tags);
+        }
 
       return redirect()->route('admin.posts.index');
     }
