@@ -122,8 +122,8 @@ class PostController extends Controller
       if (empty($post)) {
         abort('404');
       }
+      $post->tags()->detach();
       $post->comments()->delete();
-
       $post->delete();
       return redirect()->route('admin.posts.index');
     }

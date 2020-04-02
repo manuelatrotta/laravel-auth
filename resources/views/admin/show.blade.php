@@ -19,6 +19,10 @@
           <td>{{$post->body}}</td>
           <td>{{$post->created_at}}</td>
           <td>{{$post->updated_at}}</td>
+          @foreach ($post->tags as $tag){
+          <li>{{$tag->name}}</li>
+          }
+          @endforeach
         </tr>
       </tbody>
     </table>
