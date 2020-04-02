@@ -116,10 +116,6 @@ class PostController extends Controller
         abort('404');
       }
       $post->comments()->delete();
-      //dd($comments);
-      // foreach ($comments as $comment) {
-      //   $comment->delete();
-      // }
 
       $post->delete();
       return redirect()->route('admin.posts.index');
