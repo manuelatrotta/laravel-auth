@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -31,7 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
-      return view('admin.create');
+      $tags= Tag::all();
+      return view('admin.create', compact('tags'));
     }
 
     /**
@@ -54,6 +56,11 @@ class PostController extends Controller
       $post->user_id = Auth::id();
       $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
       $post->save();
+
+      $tags = $data['tags'];
+        if(!empty($tags)) {
+            $post->tags()->attach($tags);
+        }
 
       return redirect()->route('admin.posts.index');
     }
