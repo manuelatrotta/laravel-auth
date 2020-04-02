@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row">
       {{-- <h2>{{Auth::user()->name}}</h2> --}}
-      <form action="{{route('admin.posts.store')}}" method="post">
+      <form entype="multipart/form-data" action="{{route('admin.posts.store')}}" method="post">
         @csrf
         @method('POST')
         <div class="form-group">
@@ -25,7 +25,8 @@
             <input type="checkbox" name="tags[]" value="{{$tag->id}}">
           </div>
           @endforeach
-        </div>   
+        </div>
+        <input type="file" name="img" value="">
         <button class="btn btn-success" type="submit">Salva</button>
       </form>
     </div>
