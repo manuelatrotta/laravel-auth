@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 use App\Post;
 use App\Tag;
@@ -50,13 +51,14 @@ class PostController extends Controller
     ]);
 
       $data = $request->all();
+      $path = Storage::disk('public')->put('images', $data['img']);
 
       $post = new Post;
       $post->fill($data);
       $post->user_id = Auth::id();
+      $post->img = $path;
       $post->slug = Str::finish(Str::slug($post->title),rand(1, 1000000));
       $post->save();
-
       $tags = $data['tags'];
         if(!empty($tags)) {
             $post->tags()->attach($tags);
@@ -73,6 +75,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+      
       return view('admin.show', compact('post'));
     }
 

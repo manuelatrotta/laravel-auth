@@ -36,7 +36,7 @@
           </div>
         </div>
       </div>
-
+      <img src="{{asset('storage/' . $post->img)}}" alt="">
       <div class="row mt-3">
         <div class="col-12">
           <h2>Commenti</h2>
