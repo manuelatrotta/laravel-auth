@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row">
       {{-- <h2>{{Auth::user()->name}}</h2> --}}
-      <form entype="multipart/form-data" action="{{route('admin.posts.store')}}" method="post">
+      <form enctype="multipart/form-data" action="{{route('admin.posts.store')}}" method="post">
         @csrf
         @method('POST')
         <div class="form-group">
